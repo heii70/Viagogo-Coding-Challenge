@@ -118,7 +118,6 @@ public class Solution {
                 }
             }
 
-            int eventId;
             int cheapestAvailableTicket;
 
             // if(!completelySoldOut) {
@@ -129,18 +128,17 @@ public class Solution {
             // }
 
             if(completelySoldOut) {
-                eventId = -1;
+                closetAvailableEvent = -1;
                 cheapestAvailableTicket = 0;
             }
             else 
             {
-                eventId = closetAvailableEvent;
-                cheapestAvailableTicket = Collections.min(eventTickets.get(eventId));
-                int ticketIndex = eventTickets.get(eventId).indexOf(cheapestAvailableTicket);
-                eventTickets.get(eventId).remove(ticketIndex);
+                cheapestAvailableTicket = Collections.min(eventTickets.get(closetAvailableEvent));
+                int ticketIndex = eventTickets.get(closetAvailableEvent).indexOf(cheapestAvailableTicket);
+                eventTickets.get(closetAvailableEvent).remove(ticketIndex);
             }
 
-            System.out.println(eventId + " " + cheapestAvailableTicket);
+            System.out.println(closetAvailableEvent + " " + cheapestAvailableTicket);
             numberOfBuyers--;
         }        
     }    
