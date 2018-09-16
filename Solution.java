@@ -12,10 +12,13 @@ public class Solution {
         int sizeOfWorld = Integer.parseInt(scan.nextLine());
         int numberOfEvents = Integer.parseInt(scan.nextLine());
         
-        List<List<Integer>> eventCoordinates = new ArrayList<List<Integer>>(numberOfEvents);
-        List<List<Integer>> eventTickets = new ArrayList<List<Integer>>(numberOfEvents);
+        //List<List<Integer>> eventCoordinates = new ArrayList<List<Integer>>(numberOfEvents);
+        //List<List<Integer>> eventTickets = new ArrayList<List<Integer>>(numberOfEvents);
+        Map<Integer, List<Integer>> eventCoordinates = new HashMap<Integer, List<Integer>>();
+        Map<Integer, List<Integer>> eventTickets = new HashMap<Integer, List<Integer>>();
+
         
-        while(numberOfEvents > 0){
+        for(int eventId = 1; eventId <= numberOfEvents; eventId++) {
             String eventLine = scan.nextLine();
             // TODO: you will need to parse and store the events
             
@@ -33,9 +36,10 @@ public class Solution {
                 currentEventTickets.add(Integer.parseInt(eventDetails[i]));
             }
 
-            eventCoordinates.add(currentEventCoordinates);
-            eventTickets.add(currentEventTickets);
-            numberOfEvents--;
+            // eventCoordinates.add(currentEventCoordinates);
+            // eventTickets.add(currentEventTickets);
+            eventCoordinates.put(eventId, currentEventCoordinates);
+            eventTickets.put(eventId, currentEventTickets);
         }
         
         int numberOfBuyers = Integer.parseInt(scan.nextLine());
@@ -50,51 +54,90 @@ public class Solution {
             int buyerX = Integer.parseInt(buyerCoordinates[0]);
             int buyerY = Integer.parseInt(buyerCoordinates[1]);
 
-            List<Integer> eventDistances = new ArrayList<Integer>();
+            //List<Integer> eventDistances = new ArrayList<Integer>();
+            Map<Integer, Integer> eventDistances = new HashMap<Integer, Integer>();
 
-            for(int i = 0; i < eventCoordinates.size(); i++) {
-                int eventX = eventCoordinates.get(i).get(0);
-                int eventY = eventCoordinates.get(i).get(1);
+            // for(int i = 0; i < eventCoordinates.size(); i++) {
+            //     int eventX = eventCoordinates.get(i).get(0);
+            //     int eventY = eventCoordinates.get(i).get(1);
+            //     int distance = calculateManhattanDistance(buyerX, buyerY, eventX, eventY);
+            //     eventDistances.add(distance);
+            // }
+
+            for(int eventId : eventCoordinates.keySet()) {
+                int eventX = eventCoordinates.get(eventId).get(0);
+                int eventY = eventCoordinates.get(eventId).get(1);
                 int distance = calculateManhattanDistance(buyerX, buyerY, eventX, eventY);
-                eventDistances.add(distance);
+                eventDistances.put(eventId, distance);
             }
 
-            int closetAvailableIndex = -1;
+            //int closetAvailableIndex = -1;
+            int closetAvailableEvent = -1;
             int closetAvailableDistance = -1;
             boolean completelySoldOut = false;
 
-            while(closetAvailableIndex < 0 && closetAvailableDistance < 0) {
+            // while(closetAvailableIndex < 0 && closetAvailableDistance < 0) {
+            while(closetAvailableEvent < 0 && closetAvailableDistance < 0) {
+                // for(int i = 0; i < eventDistances.size(); i++) {
+                //     if(eventDistances.get(i) < 0)
+                //         continue;
 
-                for(int i = 0; i < eventDistances.size(); i++) {
-                    if(eventDistances.get(i) < 0)
-                        continue;
+                //     if(closetAvailableDistance < 0 || eventDistances.get(i) < closetAvailableDistance) {
+                //         closetAvailableDistance = eventDistances.get(i);
+                //         closetAvailableIndex = i;
+                //     }
+                // }
 
-                    if(closetAvailableDistance < 0 || eventDistances.get(i) < closetAvailableDistance) {
-                        closetAvailableDistance = eventDistances.get(i);
-                        closetAvailableIndex = i;
+                // if(closetAvailableIndex < 0 && closetAvailableDistance < 0) {
+                //     completelySoldOut = true;
+                //     break;
+                // }    
+
+                // if(eventTickets.get(closetAvailableIndex).isEmpty()) {
+                //     eventDistances.set(closetAvailableIndex, -1); 
+                //     closetAvailableIndex = -1;
+                //     closetAvailableDistance = -1;
+                // }
+
+                if(eventDistances.isEmpty()) {
+                    completelySoldOut = true;
+                    break;
+                }
+
+                for(int eventId : eventDistances.keySet()) {
+                    if(closetAvailableDistance < 0 || eventDistances.get(eventId) < closetAvailableDistance) {
+                        closetAvailableDistance = eventDistances.get(eventId);
+                        closetAvailableEvent = eventId;
                     }
                 }
 
-                if(closetAvailableIndex < 0 && closetAvailableDistance < 0) {
-                    completelySoldOut = true;
-                    break;
-                }    
-
-                if(eventTickets.get(closetAvailableIndex).isEmpty()) {
-                    eventDistances.set(closetAvailableIndex, -1); 
-                    closetAvailableIndex = -1;
+                if(eventTickets.get(closetAvailableEvent).isEmpty()) {
+                    eventDistances.remove(closetAvailableEvent);
+                    closetAvailableEvent = -1;
                     closetAvailableDistance = -1;
                 }
             }
 
-            int eventId = -1;
-            int cheapestAvailableTicket = 0;
+            int eventId;
+            int cheapestAvailableTicket;
 
-            if(!completelySoldOut) {
-                eventId = closetAvailableIndex + 1;
-                cheapestAvailableTicket = Collections.min(eventTickets.get(closetAvailableIndex));
-                int ticketIndex = eventTickets.get(closetAvailableIndex).indexOf(cheapestAvailableTicket);
-                eventTickets.get(closetAvailableIndex).remove(ticketIndex);
+            // if(!completelySoldOut) {
+            //     eventId = closetAvailableIndex + 1;
+            //     cheapestAvailableTicket = Collections.min(eventTickets.get(closetAvailableIndex));
+            //     int ticketIndex = eventTickets.get(closetAvailableIndex).indexOf(cheapestAvailableTicket);
+            //     eventTickets.get(closetAvailableIndex).remove(ticketIndex);
+            // }
+
+            if(completelySoldOut) {
+                eventId = -1;
+                cheapestAvailableTicket = 0;
+            }
+            else 
+            {
+                eventId = closetAvailableEvent;
+                cheapestAvailableTicket = Collections.min(eventTickets.get(eventId));
+                int ticketIndex = eventTickets.get(eventId).indexOf(cheapestAvailableTicket);
+                eventTickets.get(eventId).remove(ticketIndex);
             }
 
             System.out.println(eventId + " " + cheapestAvailableTicket);
