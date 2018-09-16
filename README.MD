@@ -22,7 +22,7 @@ Help fans get their tickets with the following requirements:
 ## Example
 
 ### Input:
-
+```
 5             // World size<br/>
 2             // Number of events<br/>
 1 1 1 40 60   // Event 1, located at 1,1, with two tickets at 40 and 60<br/>
@@ -31,12 +31,15 @@ Help fans get their tickets with the following requirements:
 3 3           // First buyer at 3,3<br/>
 3 2           // Second buyer at 3,2<br/>
 4 3           // Third buyer at 4,3
+```
 
 ### Expected Output:
 
+```
 2 50     // First buyer purchases a ticket for 50 from event 2<br/>
 1 40     // Second buyer purchases a ticket for 40 from event 1<br/>
 1 60     // Third buyer purchases a ticker for 60 from event 1
+```
 
 ### Explanation:
 
