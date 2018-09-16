@@ -23,19 +23,19 @@ Help fans get their tickets with the following requirements:
 
 ### Input:
 
-5             // World size
-2             // Number of events
-1 1 1 40 60   // Event 1, located at 1,1, with two tickets at 40 and 60
-2 1 4 50      // Event 2, located at 1,4, with one ticket at 50
-3             // 3 buyers
-3 3           // First buyer at 3,3
-3 2           // Second buyer at 3,2
+5             // World size<br/>
+2             // Number of events<br/>
+1 1 1 40 60   // Event 1, located at 1,1, with two tickets at 40 and 60<br/>
+2 1 4 50      // Event 2, located at 1,4, with one ticket at 50<br/>
+3             // 3 buyers<br/>
+3 3           // First buyer at 3,3<br/>
+3 2           // Second buyer at 3,2<br/>
 4 3           // Third buyer at 4,3
 
 ### Expected Output:
 
-2 50     // First buyer purchases a ticket for 50 from event 2
-1 40     // Second buyer purchases a ticket for 40 from event 1
+2 50     // First buyer purchases a ticket for 50 from event 2<br/>
+1 40     // Second buyer purchases a ticket for 40 from event 1<br/>
 1 60     // Third buyer purchases a ticker for 60 from event 1
 
 ### Explanation:
